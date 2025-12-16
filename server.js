@@ -1,19 +1,18 @@
 // orchestrator/server.js
-
-const express = require('express');
-const orchestratorRoutes = require('./routes/orchestratorRoutes');
-
+require("dotenv").config();
+const express = require("express");
 const app = express();
-[cite_start]// Puerto base según el contrato [cite: 10]
-const PORT = 8080; 
+const orchestratorController = require("./controllers/orchestratorController");
 
-// Middleware
-app.use(express.json()); 
+const PORT = process.env.PORT || 8080;
+
+app.use(express.json());
 
 // Rutas
-app.use('/', orchestratorRoutes); 
+app.get("/health", orchestratorController.health);
+app.post("/run", orchestratorController.run);
 
-// Iniciar el servidor
+// Levantar servidor
 app.listen(PORT, () => {
-    console.log(`Orchestrator service running on port ${PORT}`);
+  console.log(`ORCHESTRATOR escuchando en http://localhost:${PORT}`);
 });
