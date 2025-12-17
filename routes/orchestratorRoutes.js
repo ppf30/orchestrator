@@ -4,7 +4,7 @@ const router = express.Router();
 
 const orchestratorController = require("../controllers/orchestratorController");
 
-// Contrato del servicio ACQUIRE
+// Contrato del servicio ORCHESTRATOR
 router.get("/health", orchestratorController.health);
 router.post("/run", orchestratorController.run);
 

@@ -8,11 +8,11 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
-// Rutas
+// Endpoints según el contrato de ORCHESTRATOR
 app.get("/health", orchestratorController.health);
 app.post("/run", orchestratorController.run);
 
-// Levantar servidor
+
 app.listen(PORT, () => {
   console.log(`ORCHESTRATOR escuchando en http://localhost:${PORT}`);
 });
