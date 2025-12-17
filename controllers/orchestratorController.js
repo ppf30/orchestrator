@@ -1,11 +1,9 @@
 // orchestrator/controllers/orchestratorController.js
 
-// URLs base según los contratos de servicio
 const ACQUIRE_BASE_URL = 'http://acquire:3001';
 const PREDICT_BASE_URL = 'http://predict:3002';
 const ORCHESTRATOR_SERVICE_NAME = "orchestrator";
 
-// Función auxiliar para manejar respuestas de fetch y parsear JSON
 async function handleFetchResponse(response, serviceName) {
     if (!response.ok) {
         let errorData;
@@ -24,7 +22,7 @@ async function handleFetchResponse(response, serviceName) {
     return response.json();
 }
 
-// --- GET /health ---
+// GET /health
 function health(req, res) {
     res.status(200).json({
         status: "ok",
@@ -32,12 +30,11 @@ function health(req, res) {
     });
 }
 
-// --- POST /run ---
+// POST /run 
 async function run(req, res) {
     let dataId = null;
 
     try {
-        // 1. LLAMADA A ACQUIRE (POST /data)
         const acquireFetch = await fetch(`${ACQUIRE_BASE_URL}/data`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -49,12 +46,10 @@ async function run(req, res) {
         const { features } = acquireData;
         dataId = acquireData.dataId;
 
-        // Validación de datos esenciales
         if (!dataId || !features || features.length !== 7) {
             throw new Error("Respuesta de Acquire inválida (dataId o vector de 7 features faltante).");
         }
 
-        // 2. LLAMADA A PREDICT (POST /predict)
         const predictPayload = {
             features: features,
             meta: {
@@ -74,7 +69,7 @@ async function run(req, res) {
 
         const { predictionId, prediction, timestamp } = predictData;
 
-        // 3. RESPUESTA AL FRONTEND
+    
         return res.status(200).json({
             dataId: dataId,
             predictionId: predictionId,
@@ -83,7 +78,6 @@ async function run(req, res) {
         });
 
     } catch (error) {
-        // ERRORES DE SERVICIOS DOWNSTREAM
         if (error.status) {
             return res.status(502).json({
                 error: "Bad Gateway",
@@ -92,7 +86,6 @@ async function run(req, res) {
             });
         }
 
-        // ERRORES INTERNOS DEL ORQUESTADOR
         console.error("Error inesperado en /run:", error);
         return res.status(500).json({
             error: "Internal Server Error",
