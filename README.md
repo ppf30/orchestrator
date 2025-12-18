@@ -1,18 +1,9 @@
-# Nombre del Proyecto
+# ORCHESTRATOR
 
 Descripción breve y clara de qué hace este proyecto.
 
-## 🚀 Instalación
 
-```bash
-# Clona el repositorio
-git clone https://github.com/usuario/proyecto.git
-
-# Entra al proyecto
-cd proyecto
-```
-
-## ▶️ Uso
+## Uso
 
 NOTA: todo el proyecto está dockerizado, pero se puede probar en local
 
@@ -23,15 +14,16 @@ node server.js
 
 ## Pruebas en Postman
 GET http://localhost:8080/health
+
 POST http://localhost:8080/run
 
 
 
-## 🛠️ Lenguaje 
+## Lenguaje 
 
 * Todo el código está en Java Scrip
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 orchestrator/
@@ -49,6 +41,6 @@ orchestrator/
 ```
 
 
-## 📄 Licencia
+## Licencia
 
 Este proyecto está bajo la licencia MIT.
